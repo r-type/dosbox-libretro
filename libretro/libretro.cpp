@@ -42,6 +42,8 @@
 bool update_cycles = false;
 bool use_options = false;
 
+int dosbox_kbd_hack=0;
+
 int cycles_0 = 0;
 int cycles_1 = 0;
 int cycles_2 = 1;
@@ -94,6 +96,7 @@ void retro_set_environment(retro_environment_t cb)
         { "dosbox_cpu_cycles_1", "CPU cycles x 10000; 0|1|2|3|4|5|6|7|8|9" },
         { "dosbox_cpu_cycles_2", "CPU cycles x 1000; 0|1|2|3|4|5|6|7|8|9" },
         { "dosbox_cpu_cycles_3", "CPU cycles x 100; 1|2|3|4|5|6|7|8|9" },
+        { "dosbox_kbd_hack", "Handler type; callback|poll" },
         { NULL, NULL },
     };
 
@@ -218,9 +221,23 @@ void update_cpu_cycles()
 
 void check_variables()
 {
+   struct retro_variable var = {0};
+
+   var.key = "dosbox_keyboard_handler";
+   var.value = NULL;
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "callback") == 0)
+        dosbox_kbd_hack=0;
+      else
+      {
+	dosbox_kbd_hack=1;
+      }
+   }
+
    if(!use_options)
       return;
-   struct retro_variable var = {0};
+//   struct retro_variable var = {0};
 
    var.key = "dosbox_machine_type";
    var.value = NULL;

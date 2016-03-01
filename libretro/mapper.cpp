@@ -73,6 +73,182 @@ static const unsigned eventKeyMap[] =
 static const unsigned eventMOD1 = 55;
 static const unsigned eventMOD2 = 53;
 
+// HANDLE POLL KDB 
+
+#define   input_state_cb input_cb
+extern int dosbox_kbd_hack;
+
+static KBD_KEYS KeySym[512];
+// FIXME: HANDLE MODS
+void	retro_InitialiseKeyboardMapping()
+{
+	int	 i;
+
+	for (i=0; i<512; i++)
+	{
+		KeySym[i] = KBD_NONE;
+	}
+
+	KeySym[RETROK_0] = KBD_0;
+	KeySym[RETROK_1] = KBD_1;
+	KeySym[RETROK_2] = KBD_2;
+	KeySym[RETROK_3] = KBD_3;
+	KeySym[RETROK_4] = KBD_4;
+	KeySym[RETROK_5] = KBD_5;
+	KeySym[RETROK_6] = KBD_6;
+	KeySym[RETROK_7] = KBD_7;
+	KeySym[RETROK_8] = KBD_8;
+	KeySym[RETROK_9] = KBD_9;
+	KeySym[RETROK_a] = KBD_a;
+	KeySym[RETROK_b] = KBD_b;
+	KeySym[RETROK_c] = KBD_c;
+	KeySym[RETROK_d] = KBD_d;
+	KeySym[RETROK_e] = KBD_e;
+	KeySym[RETROK_f] = KBD_f;
+	KeySym[RETROK_g] = KBD_g;
+	KeySym[RETROK_h] = KBD_h;
+	KeySym[RETROK_i] = KBD_i;
+	KeySym[RETROK_j] = KBD_j;
+	KeySym[RETROK_k] = KBD_k;
+	KeySym[RETROK_l] = KBD_l;
+	KeySym[RETROK_m] = KBD_m;
+	KeySym[RETROK_n] = KBD_n;
+	KeySym[RETROK_o] = KBD_o;
+	KeySym[RETROK_p] = KBD_p;
+	KeySym[RETROK_q] = KBD_q;
+	KeySym[RETROK_r] = KBD_r;
+	KeySym[RETROK_s] = KBD_s;
+	KeySym[RETROK_t] = KBD_t;
+	KeySym[RETROK_u] = KBD_u;
+	KeySym[RETROK_v] = KBD_v;
+	KeySym[RETROK_w] = KBD_w;
+	KeySym[RETROK_x] = KBD_x;
+	KeySym[RETROK_y] = KBD_y;
+	KeySym[RETROK_z] = KBD_z;
+	KeySym[RETROK_SPACE] = KBD_space;
+	KeySym[RETROK_COMMA] = KBD_comma;
+	KeySym[RETROK_PERIOD] = KBD_period;
+	KeySym[RETROK_SEMICOLON] = KBD_semicolon;
+	KeySym[RETROK_MINUS] = KBD_minus;
+	KeySym[RETROK_EQUALS] = KBD_equals;
+	KeySym[RETROK_LEFTBRACKET] = KBD_leftbracket;
+	KeySym[RETROK_RIGHTBRACKET] =KBD_rightbracket;
+	KeySym[RETROK_TAB] = KBD_tab;
+	KeySym[RETROK_RETURN] = KBD_enter;
+	KeySym[RETROK_BACKSPACE] = KBD_delete;
+	KeySym[RETROK_ESCAPE] = KBD_esc;
+	KeySym[RETROK_UP] = KBD_up;
+	KeySym[RETROK_DOWN] = KBD_down;
+	KeySym[RETROK_LEFT] = KBD_left;
+	KeySym[RETROK_RIGHT] = KBD_right;
+	KeySym[RETROK_F12] = KBD_f12;
+	KeySym[RETROK_F11] = KBD_f11;
+	KeySym[RETROK_F10] = KBD_f10;
+	KeySym[RETROK_F1] = KBD_f1;
+	KeySym[RETROK_F2] = KBD_f2;
+	KeySym[RETROK_F3] = KBD_f3;
+	KeySym[RETROK_F4] = KBD_f4;
+	KeySym[RETROK_F5] = KBD_f5;
+	KeySym[RETROK_F6] = KBD_f6;
+	KeySym[RETROK_F7] = KBD_f7;
+	KeySym[RETROK_F8] = KBD_f8;
+	KeySym[RETROK_F9] = KBD_f9;
+	KeySym[RETROK_KP_PERIOD] = KBD_kpperiod;
+	KeySym[RETROK_LSHIFT] = KBD_leftshift;
+	KeySym[RETROK_RSHIFT] = KBD_rightshift;
+	KeySym[RETROK_LCTRL] = KBD_leftctrl;
+	KeySym[RETROK_RCTRL] = KBD_rightctrl;
+	KeySym[RETROK_CAPSLOCK] = KBD_capslock;
+	KeySym[RETROK_KP_ENTER] = KBD_kpenter;
+	KeySym[RETROK_DELETE] = KBD_delete;
+	KeySym[RETROK_END] = KBD_end;
+	KeySym[RETROK_PAGEDOWN] = KBD_pagedown;
+	KeySym[RETROK_INSERT] = KBD_insert;
+	KeySym[RETROK_HOME] = KBD_home;
+	KeySym[RETROK_PAGEUP] = KBD_pageup;
+	KeySym[RETROK_BACKSPACE]= KBD_backspace;
+	KeySym[RETROK_LALT]=KBD_leftalt;
+	KeySym[RETROK_RALT]=KBD_rightalt;
+	KeySym[RETROK_SCROLLOCK]=KBD_scrolllock;
+	KeySym[RETROK_NUMLOCK]=KBD_numlock;
+	KeySym[RETROK_BACKSLASH]=KBD_backslash;
+	KeySym[RETROK_QUOTE]=KBD_quote; 
+	KeySym[RETROK_SLASH]=KBD_slash;
+	KeySym[RETROK_SYSREQ]=KBD_printscreen;
+	KeySym[RETROK_PAUSE]=KBD_pause;
+	KeySym[RETROK_KP1]=KBD_kp1;
+	KeySym[RETROK_KP2]=KBD_kp2; 
+	KeySym[RETROK_KP3]=KBD_kp3;
+	KeySym[RETROK_KP4]=KBD_kp4;
+	KeySym[RETROK_KP5]=KBD_kp5; 
+	KeySym[RETROK_KP6]=KBD_kp6; 
+	KeySym[RETROK_KP7]=KBD_kp7; 
+	KeySym[RETROK_KP8]=KBD_kp8;
+	KeySym[RETROK_KP9]=KBD_kp9;
+	KeySym[RETROK_KP0]=KBD_kp0;
+	KeySym[RETROK_KP_DIVIDE]=KBD_kpdivide;
+	KeySym[RETROK_KP_MULTIPLY]=KBD_kpmultiply;
+	KeySym[RETROK_KP_MINUS]=KBD_kpminus;
+	KeySym[RETROK_KP_PLUS]=KBD_kpplus;
+	KeySym[RETROK_KP_ENTER]=KBD_kpenter; 
+	KeySym[RETROK_KP_PERIOD]=KBD_kpperiod;
+	KeySym[RETROK_BACKQUOTE]=KBD_grave; 
+
+}
+
+char Key_Sate[512];
+static char old_Key_Sate[512];
+
+void retro_key_down(int key)
+{
+	KBD_KEYS code;
+
+	if(key<512)
+ 		code=KeySym[key];	
+	else code = KBD_NONE;
+	//printf("press c:%d %x \n",code,code);
+	if(code!=KBD_NONE)KEYBOARD_AddKey(code,1);
+
+}
+
+void retro_key_up(int key)
+{
+	KBD_KEYS code;
+
+	if(key<512)
+ 		code=KeySym[key];	
+	else code = KBD_NONE;
+	//printf("release c:%d %x \n",code,code);
+	if(code!=KBD_NONE)KEYBOARD_AddKey(code,0);
+
+}
+
+void Process_key()
+{
+	int i;
+
+	for(i=0;i<320;i++)
+        	Key_Sate[i]=input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0,i) ? 0x80: 0;
+   
+	if(memcmp( Key_Sate,old_Key_Sate , sizeof(Key_Sate) ) )
+	 	for(i=0;i<320;i++)
+		if(Key_Sate[i] && Key_Sate[i]!=old_Key_Sate[i]  )
+        	{	
+			//printf("press: %d %x\n",i,i);
+			retro_key_down(i);break;
+	
+        	}	
+        	else if ( !Key_Sate[i] && Key_Sate[i]!=old_Key_Sate[i]  )
+        	{
+			printf("release: %d %x\n",i,i);
+			//retro_key_up(i);break;
+	
+        	}	
+
+	memcpy(old_Key_Sate,Key_Sate , sizeof(Key_Sate) );
+
+}
+
 ///
 
 template<typename T>
@@ -239,6 +415,8 @@ struct JoystickHat : public Processable
 
 void keyboard_event(bool down, unsigned keycode, uint32_t character, uint16_t key_modifiers)
 {
+    if(dosbox_kbd_hack==1)return;
+
     for (int i = 0; keyMap[i].retroID; i ++)
     {
         if (keyMap[i].retroID == keycode)
@@ -275,6 +453,7 @@ struct EmulatedKeyPress : public Processable
 
 void MAPPER_Init()
 {
+    retro_InitialiseKeyboardMapping();
 
     struct retro_keyboard_callback callback = { keyboard_event };
     environ_cb(RETRO_ENVIRONMENT_SET_KEYBOARD_CALLBACK, &callback);
@@ -561,6 +740,8 @@ void MAPPER_AddHandler(MAPPER_Handler * handler,MapKeys key,Bitu mods,char const
 void MAPPER_Run(bool pressed)
 {
     poll_cb();
+
+    if(dosbox_kbd_hack==1)Process_key();
 
     // Mouse movement
     int16_t mouseX = input_cb(1, RDEV(MOUSE), 0, RDID(MOUSE_X));
