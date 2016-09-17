@@ -96,7 +96,7 @@ void retro_set_environment(retro_environment_t cb)
         { "dosbox_cpu_cycles_1", "CPU cycles x 10000; 0|1|2|3|4|5|6|7|8|9" },
         { "dosbox_cpu_cycles_2", "CPU cycles x 1000; 0|1|2|3|4|5|6|7|8|9" },
         { "dosbox_cpu_cycles_3", "CPU cycles x 100; 1|2|3|4|5|6|7|8|9" },
-        { "dosbox_kbd_hack", "Handler type; callback|poll" },
+        { "dosbox_keyboard_handler", "Handler type; callback|poll" },
         { NULL, NULL },
     };
 
